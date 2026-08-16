@@ -1,0 +1,27 @@
+# ─── Local Development Profile ──────────────────────────────
+# Activate with: --spring.profiles.active=local
+# Requires Microsoft SQL Server running locally (e.g. via SSMS)
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=bookstore;encrypt=false;trustServerCertificate=true
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:YourStr0ng!Pass}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  flyway:
+    enabled: true
+    validate-on-migrate: false
+
+# ─── Logging ────────────────────────────────────────────────
+logging:
+  level:
+    com.bookstore: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
