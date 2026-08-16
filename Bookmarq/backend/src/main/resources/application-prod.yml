@@ -1,0 +1,25 @@
+# ─── Production Profile ─────────────────────────────────────
+# Activate with: --spring.profiles.active=prod
+# All sensitive values MUST come from environment variables.
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://${DB_HOST}:${DB_PORT};databaseName=${DB_NAME};encrypt=true;trustServerCertificate=false
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+  flyway:
+    enabled: true
+
+# ─── Logging ────────────────────────────────────────────────
+logging:
+  level:
+    com.bookstore: INFO
+    org.springframework.security: WARN
+    root: WARN
