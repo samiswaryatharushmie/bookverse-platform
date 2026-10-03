@@ -1,0 +1,347 @@
+[
+  {
+    "query": "the hobbit",
+    "type": "known_item",
+    "relevantBooks": [
+      { "slug": "the-hobbit-a1b2", "score": 3 }
+    ]
+  },
+  {
+    "query": "dune frank herbert",
+    "type": "known_item",
+    "relevantBooks": [
+      { "slug": "dune-c3d4", "score": 3 }
+    ]
+  },
+  {
+    "query": "pride and prejudice",
+    "type": "known_item",
+    "relevantBooks": [
+      { "slug": "pride-and-prejudice-e5f6", "score": 3 }
+    ]
+  },
+  {
+    "query": "hemmingway",
+    "type": "author_lookup",
+    "relevantBooks": [
+      { "slug": "the-old-man-and-the-sea-g7h8", "score": 3 },
+      { "slug": "a-farewell-to-arms-i9j0", "score": 2 },
+      { "slug": "for-whom-the-bell-tolls-k1l2", "score": 2 }
+    ]
+  },
+  {
+    "query": "tolkien",
+    "type": "author_lookup",
+    "relevantBooks": [
+      { "slug": "the-fellowship-of-the-ring-m3n4", "score": 3 },
+      { "slug": "the-two-towers-o5p6", "score": 3 },
+      { "slug": "the-return-of-the-king-q7r8", "score": 3 },
+      { "slug": "the-hobbit-a1b2", "score": 2 }
+    ]
+  },
+  {
+    "query": "books about grief that aren't depressing",
+    "type": "exploratory",
+    "relevantBooks": [
+      { "slug": "a-monster-calls-s9t0", "score": 3 },
+      { "slug": "the-year-of-magical-thinking-u1v2", "score": 2 }
+    ]
+  },
+  {
+    "query": "epic fantasy with dragons and magic",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "a-game-of-thrones-w3x4", "score": 3 },
+      { "slug": "eragon-y5z6", "score": 2 },
+      { "slug": "the-name-of-the-wind-a7b8", "score": 2 }
+    ]
+  },
+  {
+    "query": "cheap sci fi after 2010",
+    "type": "multi_constraint",
+    "relevantBooks": [
+      { "slug": "the-martian-c9d0", "score": 3 },
+      { "slug": "ready-player-one-e1f2", "score": 2 }
+    ]
+  },
+  {
+    "query": "harry potter and the sorcerer's stne",
+    "type": "misspelled",
+    "relevantBooks": [
+      { "slug": "harry-potter-and-the-sorcerers-stone-g3h4", "score": 3 }
+    ]
+  },
+  {
+    "query": "nuromancer",
+    "type": "misspelled",
+    "relevantBooks": [
+      { "slug": "neuromancer-i5j6", "score": 3 }
+    ]
+  },
+  {
+    "query": "asimov fndation",
+    "type": "misspelled",
+    "relevantBooks": [
+      { "slug": "foundation-k7l8", "score": 3 },
+      { "slug": "foundation-and-empire-m9n0", "score": 2 }
+    ]
+  },
+  {
+    "query": "1984 george orwell",
+    "type": "known_item",
+    "relevantBooks": [
+      { "slug": "1984-o1p2", "score": 3 },
+      { "slug": "animal-farm-q3r4", "score": 1 }
+    ]
+  },
+  {
+    "query": "distopia futures",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "1984-o1p2", "score": 3 },
+      { "slug": "brave-new-world-s5t6", "score": 3 },
+      { "slug": "fahrenheit-451-u7v8", "score": 2 }
+    ]
+  },
+  {
+    "query": "space opera grand scale",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "foundation-k7l8", "score": 3 },
+      { "slug": "dune-c3d4", "score": 3 },
+      { "slug": "hyperion-w9x0", "score": 2 }
+    ]
+  },
+  {
+    "query": "how to learn java in 21 days",
+    "type": "empty",
+    "relevantBooks": []
+  },
+  {
+    "query": "quantum computing for babies",
+    "type": "empty",
+    "relevantBooks": []
+  },
+  {
+    "query": "a comprehensive guide to knitting socks",
+    "type": "empty",
+    "relevantBooks": []
+  },
+  {
+    "query": "latest 2026 tax law changes",
+    "type": "empty",
+    "relevantBooks": []
+  },
+  {
+    "query": "asdfghjklqwerty",
+    "type": "empty",
+    "relevantBooks": []
+  },
+  {
+    "query": "historical romance set in scotland",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "outlander-y1z2", "score": 3 }
+    ]
+  },
+  {
+    "query": "hard sci fi about mars colonization",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-martian-c9d0", "score": 3 },
+      { "slug": "red-mars-a3b4", "score": 3 }
+    ]
+  },
+  {
+    "query": "agatha christie murder mystery",
+    "type": "multi_constraint",
+    "relevantBooks": [
+      { "slug": "and-then-there-were-none-c5d6", "score": 3 },
+      { "slug": "murder-on-the-orient-express-e7f8", "score": 3 }
+    ]
+  },
+  {
+    "query": "stephen king horror",
+    "type": "author_lookup",
+    "relevantBooks": [
+      { "slug": "the-shining-g9h0", "score": 3 },
+      { "slug": "it-i1j2", "score": 3 },
+      { "slug": "misery-k3l4", "score": 2 }
+    ]
+  },
+  {
+    "query": "lord of the rings",
+    "type": "known_item",
+    "relevantBooks": [
+      { "slug": "the-fellowship-of-the-ring-m3n4", "score": 3 },
+      { "slug": "the-two-towers-o5p6", "score": 3 },
+      { "slug": "the-return-of-the-king-q7r8", "score": 3 }
+    ]
+  },
+  {
+    "query": "fast paced thriller",
+    "type": "exploratory",
+    "relevantBooks": [
+      { "slug": "the-girl-with-the-dragon-tattoo-s9t0", "score": 3 },
+      { "slug": "gone-girl-u1v2", "score": 2 }
+    ]
+  },
+  {
+    "query": "business leadership management",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "good-to-great-w3x4", "score": 3 },
+      { "slug": "leaders-eat-last-y5z6", "score": 2 }
+    ]
+  },
+  {
+    "query": "finance investing stocks",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-intelligent-investor-a7b8", "score": 3 },
+      { "slug": "rich-dad-poor-dad-c9d0", "score": 2 }
+    ]
+  },
+  {
+    "query": "self help habits",
+    "type": "exploratory",
+    "relevantBooks": [
+      { "slug": "atomic-habits-e1f2", "score": 3 },
+      { "slug": "the-power-of-habit-g3h4", "score": 3 }
+    ]
+  },
+  {
+    "query": "philosophy stoicism",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "meditations-i5j6", "score": 3 },
+      { "slug": "letters-from-a-stoic-k7l8", "score": 2 }
+    ]
+  },
+  {
+    "query": "young adult dystopia",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-hunger-games-m9n0", "score": 3 },
+      { "slug": "divergent-o1p2", "score": 2 }
+    ]
+  },
+  {
+    "query": "romantasy enemies to lovers",
+    "type": "exploratory",
+    "relevantBooks": [
+      { "slug": "a-court-of-thorns-and-roses-q3r4", "score": 3 },
+      { "slug": "fourth-wing-s5t6", "score": 3 }
+    ]
+  },
+  {
+    "query": "crime fiction serial killer",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-silence-of-the-lambs-u7v8", "score": 3 }
+    ]
+  },
+  {
+    "query": "autobiography tech founder",
+    "type": "multi_constraint",
+    "relevantBooks": [
+      { "slug": "steve-jobs-w9x0", "score": 3 }
+    ]
+  },
+  {
+    "query": "classic american literature",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-great-gatsby-y1z2", "score": 3 },
+      { "slug": "to-kill-a-mockingbird-a3b4", "score": 3 },
+      { "slug": "the-catcher-in-the-rye-c5d6", "score": 2 }
+    ]
+  },
+  {
+    "query": "world war 2 non fiction",
+    "type": "multi_constraint",
+    "relevantBooks": [
+      { "slug": "the-diary-of-a-young-girl-e7f8", "score": 3 },
+      { "slug": "band-of-brothers-g9h0", "score": 3 }
+    ]
+  },
+  {
+    "query": "magical realism south america",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "one-hundred-years-of-solitude-i1j2", "score": 3 },
+      { "slug": "the-house-of-the-spirits-k3l4", "score": 2 }
+    ]
+  },
+  {
+    "query": "graphic novel memoirs",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "maus-m5n6", "score": 3 },
+      { "slug": "persepolis-o7p8", "score": 3 }
+    ]
+  },
+  {
+    "query": "cyberpunk hacking ai",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "neuromancer-i5j6", "score": 3 },
+      { "slug": "snow-crash-q9r0", "score": 2 }
+    ]
+  },
+  {
+    "query": "brandon sanderson cosmere",
+    "type": "author_lookup",
+    "relevantBooks": [
+      { "slug": "the-way-of-kings-s1t2", "score": 3 },
+      { "slug": "mistborn-u3v4", "score": 3 }
+    ]
+  },
+  {
+    "query": "vampire romance",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "twilight-w5x6", "score": 3 },
+      { "slug": "dracula-y7z8", "score": 1 }
+    ]
+  },
+  {
+    "query": "time travel paradox",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-time-machine-a9b0", "score": 3 },
+      { "slug": "11-22-63-c1d2", "score": 2 }
+    ]
+  },
+  {
+    "query": "poetry collection modern",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "milk-and-honey-e3f4", "score": 3 }
+    ]
+  },
+  {
+    "query": "childrens picture book animals",
+    "type": "multi_constraint",
+    "relevantBooks": [
+      { "slug": "the-very-hungry-caterpillar-g5h6", "score": 3 },
+      { "slug": "where-the-wild-things-are-i7j8", "score": 2 }
+    ]
+  },
+  {
+    "query": "post apocalyptic survival",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-road-k9l0", "score": 3 },
+      { "slug": "station-eleven-m1n2", "score": 2 }
+    ]
+  },
+  {
+    "query": "greek mythology retelling",
+    "type": "thematic",
+    "relevantBooks": [
+      { "slug": "the-song-of-achilles-o3p4", "score": 3 },
+      { "slug": "circe-q5r6", "score": 3 }
+    ]
+  }
+]
