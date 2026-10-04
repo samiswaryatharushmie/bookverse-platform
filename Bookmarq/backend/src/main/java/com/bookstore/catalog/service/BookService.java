@@ -5,6 +5,7 @@ import com.bookstore.catalog.dto.BookRequest;
 import com.bookstore.catalog.entity.Author;
 import com.bookstore.catalog.entity.Book;
 import com.bookstore.catalog.entity.Category;
+import com.bookstore.catalog.factory.SortOptionFactory;
 import com.bookstore.catalog.mapper.BookMapper;
 import com.bookstore.catalog.repository.AuthorRepository;
 import com.bookstore.catalog.repository.BookRepository;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.Cacheable;
@@ -44,6 +46,9 @@ public class BookService {
     private final BookMapper bookMapper;
     private final InventoryService inventoryService;
     private final OrderRepository orderRepository;
+    private final JdbcTemplate jdbcTemplate;
+    // Initialised inline, so Lombok leaves it out of the injected constructor
+    private final SortOptionFactory sortOptionFactory = new SortOptionFactory();
 
     /**
      * Original getBooks — kept for backward compatibility with existing callers.
@@ -99,56 +104,19 @@ public class BookService {
                 .and(BookSpecification.hasAvailability(availability))
                 .and(BookSpecification.isFeatured(featured));
 
-        Sort sort = resolveSort(sortSlug, query);
+        Sort sort = resolveSort(sortSlug);
         Pageable pageable = PageRequest.of(page, size, sort);
         
         return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
     }
 
     /**
-     * Maps human-readable sort slugs to Spring Sort objects.
+     * Maps human-readable sort slugs to Spring Sort objects via SortOptionFactory.
      * Always appends book ID as a secondary tiebreaker so pagination
      * never duplicates or drops items on ties.
-     *
-     * <p>"relevance" is only meaningful when a query is present;
-     * falls back to popularity otherwise.</p>
      */
-    private Sort resolveSort(String sortSlug, String query) {
-        Sort primary;
-        if (sortSlug == null) sortSlug = "";
-
-        switch (sortSlug.toLowerCase()) {
-            case "price_asc":
-                primary = Sort.by("price").ascending();
-                break;
-            case "price_desc":
-                primary = Sort.by("price").descending();
-                break;
-            case "date_desc":
-                primary = Sort.by("publishedDate").descending();
-                break;
-            case "rating_desc":
-                primary = Sort.by("avgRating").descending();
-                break;
-            case "popularity":
-                primary = Sort.by("ratingCount").descending()
-                              .and(Sort.by("avgRating").descending());
-                break;
-            case "title_asc":
-                primary = Sort.by("title").ascending();
-                break;
-            case "relevance":
-                if (query != null && !query.isBlank()) {
-                    primary = Sort.by("ratingCount").descending();
-                } else {
-                    primary = Sort.by("ratingCount").descending();
-                }
-                break;
-            default:
-                // Default: newest first
-                primary = Sort.by("createdAt").descending();
-                break;
-        }
+    private Sort resolveSort(String sortSlug) {
+        Sort primary = sortOptionFactory.createSortOption(sortSlug).toSort();
 
         // Always append ID as tiebreaker — this is the fix for the
         // "same book on page 2 and 3" bug described in the spec.
@@ -272,6 +240,18 @@ public class BookService {
         if (!bookRepository.existsById(id)) {
             throw new ResourceNotFoundException("Book not found");
         }
+        Long orderItemCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM order_items WHERE book_id = ?", Long.class, id);
+        if (orderItemCount != null && orderItemCount > 0) {
+            throw new BadRequestException("Cannot delete a book with existing order history; deactivate it instead");
+        }
+        // inventory and stock_movements cascade at the DB level (V26); everything else needs manual cleanup
+        jdbcTemplate.update("DELETE FROM book_authors WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM cart_items WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM wishlist_items WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM curated_shelf_books WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM shipment_items WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM restock_notifications WHERE book_id = ?", id);
+        jdbcTemplate.update("DELETE FROM reviews WHERE book_id = ?", id);
         bookRepository.deleteById(id);
     }
 

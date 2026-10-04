@@ -1,6 +1,8 @@
 package com.bookstore.catalog.service;
 
+import com.bookstore.catalog.dto.BookDto;
 import com.bookstore.catalog.entity.Book;
+import com.bookstore.catalog.mapper.BookMapper;
 import com.bookstore.catalog.repository.BookRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,6 +23,7 @@ public class SearchEngineService {
     private final BookRepository bookRepository;
     private final EmbeddingService embeddingService;
     private final ObjectMapper objectMapper;
+    private final BookMapper bookMapper;
 
     // --- BM25 Parameters (Exposed as requested) ---
     private static final double BM25_K1 = 1.2;
@@ -40,10 +43,11 @@ public class SearchEngineService {
     private double avgdl = 0.0;
     private int totalDocs = 0;
 
-    public SearchEngineService(BookRepository bookRepository, EmbeddingService embeddingService, ObjectMapper objectMapper) {
+    public SearchEngineService(BookRepository bookRepository, EmbeddingService embeddingService, ObjectMapper objectMapper, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
         this.embeddingService = embeddingService;
         this.objectMapper = objectMapper;
+        this.bookMapper = bookMapper;
     }
 
     @PostConstruct
@@ -163,7 +167,7 @@ public class SearchEngineService {
             }
             
             if (rrfScore > 0) {
-                SearchResult sr = new SearchResult(book, bm25Score, semanticScore, bm25Rank, semanticRank, rrfScore);
+                SearchResult sr = new SearchResult(bookMapper.toDto(book), bm25Score, semanticScore, bm25Rank, semanticRank, rrfScore);
                 results.add(sr);
             }
         }
@@ -287,14 +291,14 @@ public class SearchEngineService {
     }
 
     public static class SearchResult {
-        public Book book;
+        public BookDto book;
         public double bm25Score;
         public double semanticScore;
         public Integer bm25Rank;
         public Integer semanticRank;
         public double rrfScore;
 
-        public SearchResult(Book book, double bm25Score, double semanticScore, Integer bm25Rank, Integer semanticRank, double rrfScore) {
+        public SearchResult(BookDto book, double bm25Score, double semanticScore, Integer bm25Rank, Integer semanticRank, double rrfScore) {
             this.book = book;
             this.bm25Score = bm25Score;
             this.semanticScore = semanticScore;

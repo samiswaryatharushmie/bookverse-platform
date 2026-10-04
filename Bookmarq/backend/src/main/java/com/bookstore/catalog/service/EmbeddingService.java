@@ -10,14 +10,11 @@ import ai.djl.repository.zoo.Criteria;
 import ai.djl.repository.zoo.ZooModel;
 import ai.djl.translate.NoopTranslator;
 import ai.djl.translate.TranslateException;
+import com.bookstore.catalog.cache.EmbeddingCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -32,12 +29,7 @@ public class EmbeddingService {
     private ZooModel<NDList, NDList> model;
     private Predictor<NDList, NDList> predictor;
     
-    private final Map<String, float[]> embeddingCache = Collections.synchronizedMap(new LinkedHashMap<>() {
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<String, float[]> eldest) {
-            return size() > 1000;
-        }
-    });
+    private final EmbeddingCache embeddingCache = EmbeddingCache.getInstance();
 
     @PostConstruct
     public void init() {
