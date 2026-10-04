@@ -105,7 +105,7 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(AUTH_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
-                        .requestMatchers("/api/newsletter/subscribe").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/restock-notifications").permitAll()
 
                         // Admin endpoints
                         .requestMatchers("/api/admin/users/**").hasRole("ADMIN")

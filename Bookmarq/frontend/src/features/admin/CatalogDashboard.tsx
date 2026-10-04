@@ -3,8 +3,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import apiClient from '../../lib/apiClient';
 import { Book, Category, Author } from '../catalog/CatalogPage';
-import { Loader2, Plus, Edit2, Trash2, Image as ImageIcon, X, BookOpen, ListTree } from 'lucide-react';
+import { Loader2, Plus, Edit2, Trash2, Image as ImageIcon, X, BookOpen, ListTree, LayoutList } from 'lucide-react';
 import CategoryManager from './components/CategoryManager';
+import ShelfManager from './components/ShelfManager';
 
 interface BookFormData {
   isbn: string;
@@ -34,7 +35,7 @@ function slugify(title: string) {
 
 export default function CatalogDashboard() {
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'books' | 'categories'>('books');
+  const [activeTab, setActiveTab] = useState<'books' | 'categories' | 'shelves'>('books');
   const [searchTerm, setSearchTerm] = useState('');
   const [bookModal, setBookModal] = useState<{ open: boolean; editBook: Book | null }>({ open: false, editBook: null });
   const [form, setForm] = useState<BookFormData>(emptyForm);
@@ -42,7 +43,7 @@ export default function CatalogDashboard() {
   const { data: bookPage, isLoading } = useQuery({
     queryKey: ['adminBooks', searchTerm],
     queryFn: async () => {
-      const res = await apiClient.get(`/books?query=${searchTerm}&size=50`);
+      const res = await apiClient.get(`/admin/books?query=${searchTerm}&size=100`);
       return res.data.data;
     }
   });
@@ -94,7 +95,8 @@ export default function CatalogDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminBooks'] });
       toast.success('Book deleted');
-    }
+    },
+    onError: (err: any) => toast.error(err.response?.data?.message || 'Failed to delete book')
   });
 
   const handleUploadCover = async (e: React.ChangeEvent<HTMLInputElement>, bookId: string) => {
@@ -215,10 +217,22 @@ export default function CatalogDashboard() {
         >
           <ListTree className="h-4 w-4" /> Categories
         </button>
+        <button
+          onClick={() => setActiveTab('shelves')}
+          className={`px-4 py-3 font-medium text-sm flex items-center gap-2 border-b-2 transition-colors ${
+            activeTab === 'shelves'
+              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+              : 'border-transparent text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
+          }`}
+        >
+          <LayoutList className="h-4 w-4" /> Curated Shelves
+        </button>
       </div>
 
       {activeTab === 'categories' ? (
         <CategoryManager />
+      ) : activeTab === 'shelves' ? (
+        <ShelfManager />
       ) : (
         <>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
