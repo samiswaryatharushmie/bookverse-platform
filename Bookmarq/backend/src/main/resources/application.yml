@@ -35,6 +35,30 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
 
+  # Mail — Gmail's free SMTP relay (smtp.gmail.com). Requires an app password,
+  # not the regular account password: https://myaccount.google.com/apppasswords
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+server:
+  tomcat:
+    # Must exceed max-request-size so Tomcat can fully swallow an oversized multipart body
+    # and let Spring respond with a clean 413 JSON error, instead of resetting the connection
+    # mid-upload (the default max-swallow-size equals max-request-size, which is too small).
+    max-swallow-size: 20MB
+
 # ─── Actuator ───────────────────────────────────────────────
 management:
   endpoints:
@@ -65,3 +89,6 @@ app:
   upload:
     dir: ${UPLOAD_DIR:./uploads}
     max-size-bytes: 2097152  # 2 MB
+  mail:
+    from: ${MAIL_FROM:Bookmarq <noreply@bookmarq.com>}
+    enabled: ${MAIL_ENABLED:true}

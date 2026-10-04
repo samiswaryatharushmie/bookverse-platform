@@ -1,6 +1,7 @@
 package com.bookstore.common.exception;
 
 import com.bookstore.common.ApiResponse;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -92,6 +95,34 @@ public class GlobalExceptionHandler {
         log.warn("Bad credentials attempt");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error("UNAUTHORIZED", "Invalid email or password"));
+    }
+
+    /**
+     * 401 — Access token is expired, tampered with or malformed, or belongs to a user who no
+     * longer exists. Thrown from JwtAuthFilter. The frontend refreshes the session on 401,
+     * so this must not fall through to the 500 catch-all.
+     */
+    @ExceptionHandler({JwtException.class, UsernameNotFoundException.class})
+    public ResponseEntity<ApiResponse<Void>> handleInvalidToken(Exception ex) {
+        log.warn("Rejected access token: {}", ex.getClass().getSimpleName());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error("INVALID_TOKEN", "Your session has expired or is invalid. Please sign in again."));
+    }
+
+    /** 403 — Account disabled (status is not ACTIVE, e.g. suspended). */
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiResponse<Void>> handleDisabled(DisabledException ex) {
+        log.warn("Disabled account login attempt");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error("ACCOUNT_DISABLED", "This account is suspended or inactive"));
+    }
+
+    /** 400 — Invalid request / business precondition expressed as IllegalArgumentException. */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(IllegalArgumentException ex) {
+        log.warn("Invalid request: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error("BAD_REQUEST", ex.getMessage()));
     }
 
     /** 423 — Account locked. */
