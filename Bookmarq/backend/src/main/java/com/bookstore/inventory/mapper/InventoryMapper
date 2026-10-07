@@ -1,0 +1,14 @@
+package com.bookstore.inventory.mapper;
+
+import com.bookstore.inventory.dto.InventoryDto;
+import com.bookstore.inventory.entity.Inventory;
+import com.bookstore.catalog.mapper.BookMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring", uses = {BookMapper.class})
+public interface InventoryMapper {
+    
+    @Mapping(target = "availableQuantity", expression = "java(entity.getAvailableQuantity())")
+    InventoryDto toDto(Inventory entity);
+}
